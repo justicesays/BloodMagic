@@ -13,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateHealth;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -64,7 +66,13 @@ public class Teleports
                         player.setPositionAndUpdate(x + 0.5, y + 0.5, z + 0.5);
                         player.getEntityWorld().updateEntityWithOptionalForce(player, false);
                         player.connection.sendPacket(new SPacketUpdateHealth(player.getHealth(), player.getFoodStats().getFoodLevel(), player.getFoodStats().getSaturationLevel()));
-                        player.timeUntilPortal = 150;
+                        if (getMinecraft().thePlayer.getUniqueID() != null)
+                        {
+                              playerlatency = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
+                        } else
+                              playerlatency = 100 ; 
+                        }
+                        player.timeUntilPortal = 150 * (playerlatency / 100) ;
 
                         player.getEntityWorld().playSound(x, y, z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.AMBIENT, 1.0F, 1.0F, false);
                         if (teleposer)
