@@ -66,13 +66,11 @@ public class Teleports
                         player.setPositionAndUpdate(x + 0.5, y + 0.5, z + 0.5);
                         player.getEntityWorld().updateEntityWithOptionalForce(player, false);
                         player.connection.sendPacket(new SPacketUpdateHealth(player.getHealth(), player.getFoodStats().getFoodLevel(), player.getFoodStats().getSaturationLevel()));
-                        if (getMinecraft().thePlayer.getUniqueID() != null)
-                        {
-                              playerlatency = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
-                        } else
-                        {
+                        int playerlatency;
+                        if (player.getUniqueID() != null)
+                            playerlatency = player.getResponseTime();
+                        if (playerlatency = null || playerlatency < 100 ) 
                               playerlatency = 100 ; 
-                        }
                         player.timeUntilPortal = 150 * (playerlatency / 100) ;
 
                         player.getEntityWorld().playSound(x, y, z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.AMBIENT, 1.0F, 1.0F, false);
