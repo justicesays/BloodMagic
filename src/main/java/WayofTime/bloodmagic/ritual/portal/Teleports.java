@@ -70,6 +70,7 @@ public class Teleports
                         {
                               playerlatency = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
                         } else
+                        {
                               playerlatency = 100 ; 
                         }
                         player.timeUntilPortal = 150 * (playerlatency / 100) ;
